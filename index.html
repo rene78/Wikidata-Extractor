@@ -13,7 +13,6 @@
     h2 {
       color: maroon;
     }
-
     textarea {
       max-width: 100%;
       height: 200px;
@@ -47,6 +46,7 @@
     }
   </style>
 </head>
+
 <body>
 <h1>Wikidata Extractor</h1>
 <details>
@@ -81,8 +81,7 @@
     <li>Define an area, within which to search for districts. This area could be a city, municipality or country. The correct name of this area as stated in the OSM relation is very important. Thus go to OSM and enter the Name into the search field. Click on the result (e.g. <a href="https://www.openstreetmap.org/relation/439840">result for Prague</a>) and copy the value of "name" into your overpass query ("Praha" in the example above). Then search for "admin_level" in the same result and copy this one as well (optional. In the example above it is "8").</li>
     <li>Now by trial-and-error try "admin_level" larger than the one defined in the search field (in the example above results will show up with "admin_level=10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level".</li>
   </ol>
-  <!-- Add YT video
-  <div style="position:relative;height:0;padding-bottom:56.27%"><iframe src="https://www.youtube.com/embed/OPb1GW32xNE?ecver=2" style="position:absolute;width:100%;height:100%;left:0" width="640" height="360" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>-->
+
   <h3>Overpass example queries</h3>
   <div class="flex-container">
     <div><img src="./img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
@@ -97,7 +96,12 @@
 	Ortsteile of Berlin<br><a href="http://overpass-turbo.eu/s/ATt" target="_blank">Overpass example</a></div>
   </div>
  * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. So be patient (and remove or increase the timeout value in your query).
+
+  <h3>Improve</h3>
+  <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate.</p>
+ 
 </details>
+
 <h2>Paste your overpass JSON</h2>
 <textarea id="textareabox" cols="120" rows="20" placeholder="Your JSON please"></textarea> <br>
 <input type="button" value="Create Mapshapes" onclick="createMapshapes()" />
@@ -135,7 +139,6 @@ function createMapshapes() {
   document.getElementById("mapshapes").appendChild(outputTextarea);
   */
 }
-
 function createOverviewTable() {
   var table="<table>";
   table += "<thead>";
@@ -161,7 +164,6 @@ function createOverviewTable() {
   document.getElementById("mapshapes").innerHTML=table;
   document.getElementById("infotext").innerHTML="";
 }
-
 function defineName(myObj, i) {
 //use english name, if available. Else use the normal "name" tag. Dot/bracket notation used due to colon (https://stackoverflow.com/q/4925760/5263954)
   if (typeof myObj.elements[i].tags['name:en'] == 'undefined') {
