@@ -49,10 +49,19 @@
 
 <body>
 <h1>Wikidata Extractor</h1>
+
+<h2>Paste your overpass JSON</h2>
+<textarea id="textareabox" cols="120" rows="20" placeholder="Your JSON please"></textarea> <br>
+<input type="button" value="Create Mapshapes" onclick="createMapshapes()" />
+<input type="button" value="Create overview table" onclick="createOverviewTable()" />
+
+<p id="infotext"></p>
+<p id="mapshapes"></p>
+
 <details>
-  <summary>Help</summary>
+  <summary>Help & Forum</summary>
   <h3>Introduction</h3>
-  <p>It is often very tedious to gather all Wikidata ID's in order to create a dynamic district map for Wikivoyage. The macro below can automate this task.<br>
+  <p>It is often very tedious to gather all Wikidata ID's in order to create a dynamic district map for Wikivoyage. The macro on this page can automate this task.<br>
   Example: To get all the districts of <a href="https://en.wikivoyage.org/wiki/Talk:Prague#Wikidata_items_for_dynamic_map">Prague</a> is just a matter of minutes with this tool.<br>
   <img src="./img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;"><br>
   </p>
@@ -63,7 +72,7 @@
   <li>Enter search query (see below for a best practice and some examples)</li>
   <li>Click on Run</li>
   <li>Copy the whole GeoJSON code on the right side of the website</li>
-  <li>Go back to this website and paste the GeoJSON into the textbox below</li>
+  <li>Go back to this website and paste the GeoJSON into the textbox above</li>
   <li>Click on "Create Mapshapes" to get code, which can be directly pasted to Wikivoyage or "Create overview table" for a list of all districts</li>
   </ol>
   <h3>Best practice to define a query in overpass</h3>
@@ -98,17 +107,31 @@
  * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. So be patient (and remove or increase the timeout value in your query).
 
   <h3>Improve</h3>
-  <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate.</p>
+  <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate or leave a comment down below.</p>
  
-</details>
+  <h3>Discuss</h3>
+  <div id="disqus_thread"></div>
+  <script>
+  
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+  
+  var disqus_config = function () {
+  this.page.url = "https://rene78.github.io/Wikidata-Extractor/";  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = 654187; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+  
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://wikidata-extractor.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
-<h2>Paste your overpass JSON</h2>
-<textarea id="textareabox" cols="120" rows="20" placeholder="Your JSON please"></textarea> <br>
-<input type="button" value="Create Mapshapes" onclick="createMapshapes()" />
-<input type="button" value="Create overview table" onclick="createOverviewTable()" />
-<h2>Result</h2>
-<p id="infotext"></p>
-<p id="mapshapes"></p>
+</details>
 
 <script>
 function createMapshapes() {
@@ -128,7 +151,7 @@ function createMapshapes() {
   }
   var outputTextarea = "<textarea id=textareabox cols=110 rows=30>" + mapshape + "</textarea>";
   document.getElementById("mapshapes").innerHTML=outputTextarea;
-  document.getElementById("infotext").innerHTML="<ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul>";
+  document.getElementById("infotext").innerHTML="<h2>Result</h2><ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul>";
   /*
   Alternative with DOM modification:
   var outputTextarea = document.createElement("TEXTAREA");
@@ -162,7 +185,7 @@ function createOverviewTable() {
   table += "</table";
   //console.log(table);
   document.getElementById("mapshapes").innerHTML=table;
-  document.getElementById("infotext").innerHTML="";
+  document.getElementById("infotext").innerHTML="<h2>Result</h2>";
 }
 function defineName(myObj, i) {
 //use english name, if available. Else use the normal "name" tag. Dot/bracket notation used due to colon (https://stackoverflow.com/q/4925760/5263954)
@@ -173,5 +196,6 @@ function defineName(myObj, i) {
   }
 }
 </script>
+<script id="dsq-count-scr" src="//wikidata-extractor.disqus.com/count.js" async></script>
 </body>
 </html>
