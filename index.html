@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Wikidata Extractor</title>
-  <link rel="Shortcut Icon" href="./img/favicon.ico">
+  <link rel="Shortcut Icon" href="img/favicon.ico">
   <style>
     body {
       background-color: linen;
@@ -13,6 +13,7 @@
     h2 {
       color: maroon;
     }
+	
     textarea {
       max-width: 100%;
       height: 200px;
@@ -85,10 +86,30 @@
 </ul>
 
 <h1>Wikidata Extractor</h1>
-<textarea id="textareabox" cols="120" rows="20" placeholder="Please paste your GeoJSON extracted from overpass turbo"></textarea> <br>
-<input type="button" value="Create Mapshapes" onclick="createMapshapes()" />
-<input type="button" value="Create overview table" onclick="createOverviewTable()" />
+<h2>Name</h2>
+<p> ...of the city, province or country from which to extract subareas</p>
 
+<input type="text" id="name" placeholder="e.g. 'Prague' or 'Praha'" autofocus><br>
+
+<h2>Administrative Level</h2>
+<p>...of the districts/countries you want to find</p>
+<input type="radio" name="admin_level" value="1"> 1 (Super-national administrations, e.g. European Union) <br>
+<input type="radio" name="admin_level" value="2"> 2 (Countries)<br>
+<input type="radio" name="admin_level" value="3"> 3 (In Japan: States) <br>
+<input type="radio" name="admin_level" value="4"> 4 (States)<br>
+<input type="radio" name="admin_level" value="5"> 5 (Administrative District)<br>
+<input type="radio" name="admin_level" value="6" checked> 6 (Counties)<br>
+<input type="radio" name="admin_level" value="7"> 7 (Townships)<br>
+<input type="radio" name="admin_level" value="8"> 8 (Boroughs)<br>
+<input type="radio" name="admin_level" value="9"> 9 (Wards)<br>
+<input type="radio" name="admin_level" value="10"> 10 (Neighborhoods)<br>
+
+<input type="button" id="myBtn" value="Create Mapshapes" onclick="fetchGeoJson()"/>
+
+<p id="heading1"></p>
+<p id="heading2"></p>
+<p id="overview-table"></p>
+<p id="heading3"></p>
 <p id="infotext"></p>
 <p id="mapshapes"></p>
 
@@ -97,48 +118,29 @@
   <h3>Introduction</h3>
   <p>It is often very tedious to gather all Wikidata ID's in order to create a dynamic district map for Wikivoyage. The macro on this page can automate this task.<br>
   Example: To get all the districts of <a href="https://en.wikivoyage.org/wiki/Talk:Prague#Wikidata_items_for_dynamic_map">Prague</a> is just a matter of minutes with this tool.<br>
-  <img src="./img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;"><br>
+  <img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;"><br>
   </p>
   <h3>Workflow</h3>
-  <a title="How to picture" href="./img/How_to_pic.png" target="_blank"><img src="./img/How_to_pic_lowres.jpg" alt="How to picture" style="width:100%;max-width:400px;height:auto;border:2px solid red;"></a>
   <ol>
-  <li>Go to <a href="http://overpass-turbo.eu/">Overpass turbo</a>
-  <li>Enter search query (see below for a best practice and some examples)</li>
-  <li>Click on Run</li>
-  <li>Copy the whole GeoJSON code on the right side of the website</li>
-  <li>Go back to this website and paste the GeoJSON into the textbox above</li>
-  <li>Click on "Create Mapshapes" to get code, which can be directly pasted to Wikivoyage or "Create overview table" for a list of all districts</li>
-  </ol>
-  <h3>Best practice to define a query in overpass</h3>
-  <p>Example</p>
-  <code>
-  [out:json][timeout:25];<br>
-  area[admin_level=8][name=Praha]->.search;<br>
-  (rel(area.search)[admin_level=10][wikidata=""];<br>
-  );<br>
-  out tags;
-  </code>
-
-  <ol>
-    <li>Define "JSON" as the output format. Define a timeout to cancel the query after a certain amount of time (optional).</li>
-    <li>Define an area, within which to search for districts. This area could be a city, municipality or country. The correct name of this area as stated in the OSM relation is very important. Thus go to OSM and enter the Name into the search field. Click on the result (e.g. <a href="https://www.openstreetmap.org/relation/439840">result for Prague</a>) and copy the value of "name" into your overpass query ("Praha" in the example above). Then search for "admin_level" in the same result and copy this one as well (optional. In the example above it is "8").</li>
-    <li>Now by trial-and-error try "admin_level" larger than the one defined in the search field (in the example above results will show up with "admin_level=10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level".</li>
+  <li>Enter <b>name</b> of place to districtify.</a>
+  <li>Enter <b>administrative level<b> of the subdistricts you are looking for. This is sort of an trial-and-error process. The admin level has to be larger than the one of the place defined in the name field (So if you look for districts of a city like Prague, which has <a href="https://www.openstreetmap.org/relation/439840">"admin_level=8"</a> the districts will show up by entering either "9" or "10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level" to get the right admin_level without trial-and-error (e.g. <a href="https://www.openstreetmap.org/relation/428823">Vyšehrad has "admin_level=10".</a> Thus you select the "10" radio button).</li>
+  <li>Click on <b>Create Mapshapes</b> to get code, which can be directly pasted to Wikivoyage & an overview table of all districts</li>
   </ol>
 
-  <h3>Overpass example queries</h3>
+  <h3>Example queries</h3>
   <div class="flex-container">
-    <div><img src="./img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
-	Subdistricts of Prague<br><a href="http://overpass-turbo.eu/s/APg" target="_blank">Overpass example</a></div>
-    <div><img src="./img/Example_Slovakia.jpg" alt="Example: Slovakia" style="width:100%;max-width:400px;height:auto;">
-	Subdistricts of Slovakia<br><a href="http://overpass-turbo.eu/s/APr" target="_blank">Overpass example</a>*</div>
-    <div><img src="./img/Example_France.jpg" alt="Example: Slovakia" style="width:100%;max-width:400px;height:auto;">
-	Subdistricts of France<br><a href="http://overpass-turbo.eu/s/ARU" target="_blank">Overpass example</a>*</div>
-    <div><img src="./img/Example_Berlin_Level_9.jpg" alt="Example: Verwaltungsbezirke of Berlin" style="width:100%;max-width:400px;height:auto;">
-	Verwaltungsbezirke of Berlin<br><a href="http://overpass-turbo.eu/s/ATs" target="_blank">Overpass example</a></div>
-    <div><img src="./img/Example_Berlin_Level_10.jpg" alt="Example: Ortsteile of Berlin" style="width:100%;max-width:400px;height:auto;">
-	Ortsteile of Berlin<br><a href="http://overpass-turbo.eu/s/ATt" target="_blank">Overpass example</a></div>
+    <div><img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
+	<b>Subdistricts of Prague</b><br>Name: Prague<br>Administrative Level: 10</div>
+    <div><img src="img/Example_Slovakia.jpg" alt="Example: Slovakia" style="width:100%;max-width:400px;height:auto;">
+	<b>Regions of Slovakia*</b><br>Name: Slovakia<br>Administrative Level: 8</div>
+    <div><img src="img/Example_France.jpg" alt="Example: France" style="width:100%;max-width:400px;height:auto;">
+	<b>Regions of France*</b><br>Name: France<br>Administrative Level: 4</div>
+    <div><img src="img/Example_Berlin_Level_9.jpg" alt="Example: Boroughs of Berlin" style="width:100%;max-width:400px;height:auto;">
+	<b>Boroughs of Berlin</b><br>Name: Berlin<br>Administrative Level: 9</div>
+    <div><img src="img/Example_Berlin_Level_10.jpg" alt="Example: Neighborhoods of Berlin" style="width:100%;max-width:400px;height:auto;">
+	<b>Neighborhoods of Berlin</b><br>Name: Berlin<br>Administrative Level: 10</div>
   </div>
- * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. So be patient (and remove or increase the timeout value in your query).
+ * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. The regions of France in the example above take about 4mins to compute.
 
   <h3>Improve</h3>
   <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate or leave a comment down below.</p>
@@ -168,35 +170,111 @@
 </details>
 
 <script>
-function createMapshapes() {
-  var input = document.getElementById("textareabox").value;
-  var myObj = JSON.parse(input);
+
+//Send request after pressing the return key
+document.querySelector("#name").addEventListener("keyup", event => {
+  event.preventDefault(); // No need to `return false;`.
+  if(event.key !== "Enter") return;
+  fetchGeoJson();
+});
+
+function fetchGeoJson() {
+  //Clean all HTML sections from previous results or errors
+  document.getElementById("heading1").innerHTML="";
+  document.getElementById("heading2").innerHTML="";
+  document.getElementById("overview-table").innerHTML="";
+  document.getElementById("heading3").innerHTML="";
+  document.getElementById("infotext").innerHTML="";
+  document.getElementById("mapshapes").innerHTML="";
+  document.getElementById("infotext").innerHTML="";
+  //Show wait cursor and GIF while the JSON is being loaded
+  document.body.style.cursor = "wait";
+  document.getElementById("heading1").innerHTML='<img src="img/giphy.gif" alt="Loading..." style="width:32px;height:auto;">';
+
+  var name = document.getElementById("name").value;
+  
+  //Exit function, if nothing has been entered & print error message.
+  if (!name) {
+    outputError("Please enter something in the name field.");
+	return;
+  }
+  
+  //Make sure, that name is found even if first letter is not a capital letter, e.g. "name"~"[hH]oltorf". Add $ sign to make sure that it doesn't find "Parish hall", if we search for Paris.
+  name="^["+name[0].toUpperCase() + name[0].toLowerCase() + "]" + name.slice(1) + "$";
+  console.log("Name: "+ name);
+  
+  //Find out which radio button is selected and forward this number to "adminLevel"
+  var radios = document.getElementsByName("admin_level");
+  var adminLevel;
+  for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        adminLevel = radios[i].value;       
+      }
+  }
+  
+  var data='[out:json][timeout:240];area[~"^name"~"' + name + '"]->.search;(rel(area.search)[admin_level=' +adminLevel + '][wikidata=""];);out tags;';
+  console.log("Paste this code to overpass turbo to debug: " +data);
+  
+  //Convert whitespaces and special chars to %xx
+  var dataUri=encodeURIComponent(data.trim());
+  //console.log("Data with URI encoding: " +dataUri);
+
+  //Create url for API request
+  var url="http://overpass-api.de/api/interpreter?data=" + dataUri;
+  //console.log(url);
+
+  fetch(url)
+    .then(handleErrors)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function (overpassJson) {
+      //Change cursor back to standard
+      document.body.style.cursor = "auto";
+
+      //If the response is empty print a message
+      if (overpassJson.elements.length!=0) {
+        createMapshapes(overpassJson);
+      } else {
+	    outputError("The request returned no results!");
+      }
+    }).catch(function(error) {
+	  outputError(error);
+	});
+}
+
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
+
+//Show error message
+function outputError(message) {
+  //Change cursor back to standard
+  document.body.style.cursor = "auto";
+
+  document.getElementById("heading1").innerHTML="<h2>An error has occured</h2>"; //Replace loading animation with "Error"
+  document.getElementById("heading2").innerHTML="";
+  document.getElementById("overview-table").innerHTML="";
+  document.getElementById("heading3").innerHTML="";
+  document.getElementById("infotext").innerHTML=message;
+  document.getElementById("mapshapes").innerHTML="";
+}
+
+function createMapshapes(overpassJson) {
+  //Create mapshapes
   var mapshape="{{Mapframe|42|12|width=500|height=500|zoom=1|group=map1}}\r\n";
-  for (var i = 0; i < myObj.elements.length; i++) {
-    var wikidata = myObj.elements[i].tags.wikidata;
-    var name = defineName(myObj,i);
+  for (var i = 0; i < overpassJson.elements.length; i++) {
+    var wikidata = overpassJson.elements[i].tags.wikidata;
+    var name = defineName(overpassJson,i);
     var randColor = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);//source: https://www.paulirish.com/2009/random-hex-color-code-snippets/
     mapshape=mapshape + "{{Mapshape|type=geoshape|wikidata=" + wikidata + "|group=map1|fill=#"    + randColor + "|title=" + name + " - " + wikidata + "}}\r\n";
-    //document.getElementById("mapshapes").innerHTML = mapshape;
-    //console.log("Name: " +name);
-    //console.log("Wikidata: " +wikidata);
-    //console.log("Color: " +randColor);
-    //console.log(mapshape);
   }
   var outputTextarea = "<textarea id=textareabox cols=110 rows=30>" + mapshape + "</textarea>";
-  document.getElementById("mapshapes").innerHTML=outputTextarea;
-  document.getElementById("infotext").innerHTML="<h2>Result</h2><ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul>";
-  /*
-  Alternative with DOM modification:
-  var outputTextarea = document.createElement("TEXTAREA");
-    outputTextarea.rows=30;
-    outputTextarea.cols=110;
-  var textnode = document.createTextNode(mapshape);
-  outputTextarea.appendChild(textnode);
-  document.getElementById("mapshapes").appendChild(outputTextarea);
-  */
-}
-function createOverviewTable() {
+
+  //Create overview table
   var table="<table>";
   table += "<thead>";
   table += "<tr>";
@@ -205,31 +283,39 @@ function createOverviewTable() {
   table += "</tr>";
   table += "</thead>";
   table += "<tbody>";
-  var input = document.getElementById("textareabox").value;
-  var myObj = JSON.parse(input);
-  for (var i = 0; i < myObj.elements.length; i++) {
-    var wikidata = myObj.elements[i].tags.wikidata;
-    var name = defineName(myObj,i);
+
+  for (var i = 0; i < overpassJson.elements.length; i++) {
+    var wikidata = overpassJson.elements[i].tags.wikidata;
+    var name = defineName(overpassJson,i);
     table += "<tr>";
     table += ("<td>" + name + "</td>");
     table += ("<td>" + wikidata + "</td>");
   }
+
   table += "</tr>";
   table += "</tbody>";
   table += "</table";
-  //console.log(table);
-  document.getElementById("mapshapes").innerHTML=table;
-  document.getElementById("infotext").innerHTML="<h2>Result</h2>";
+
+  //Write to html
+  document.getElementById("heading1").innerHTML="<h2>Result</h2>";
+  document.getElementById("heading2").innerHTML="<h3>Overview Table</h3>";
+  document.getElementById("overview-table").innerHTML=table;
+  document.getElementById("heading3").innerHTML="<h3>Mapshapes</h3>";
+  document.getElementById("infotext").innerHTML="<details><summary>Hints</summary><ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul></details>";
+  document.getElementById("mapshapes").innerHTML=outputTextarea;
 }
-function defineName(myObj, i) {
-//use english name, if available. Else use the normal "name" tag. Dot/bracket notation used due to colon (https://stackoverflow.com/q/4925760/5263954)
-  if (typeof myObj.elements[i].tags['name:en'] == 'undefined') {
-    return myObj.elements[i].tags.name;
+
+function defineName(overpassJson, i) {
+  //use english name, if available. Else use the normal "name" tag. Dot/bracket notation used due to colon (https://stackoverflow.com/q/4925760/5263954)
+  if (typeof overpassJson.elements[i].tags['name:en'] == 'undefined') {
+    return overpassJson.elements[i].tags.name;
   } else {
-    return myObj.elements[i].tags['name:en'];
+    return overpassJson.elements[i].tags['name:en'];
   }
 }
 </script>
+
 <script id="dsq-count-scr" src="//wikidata-extractor.disqus.com/count.js" async></script>
+
 </body>
 </html>
