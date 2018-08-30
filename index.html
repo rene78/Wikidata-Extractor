@@ -123,8 +123,8 @@
   <h3>Workflow</h3>
   <ol>
   <li>Enter the <b>Name</b> of the place to districtify.</a>
-  <li>Enter the <b>Administrative Level</b> of the subdistricts you are looking for. This is sort of an trial-and-error process. The admin level has to be larger than the one of the place defined in the name field (So if you look for districts of a city like Prague, which has <a href="https://www.openstreetmap.org/relation/439840">"admin_level=8"</a> the districts will show up by entering either "9" or "10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level" to get the right admin_level without trial-and-error (e.g. <a href="https://www.openstreetmap.org/relation/428823">Vyšehrad has "admin_level=10".</a> Thus you select the "10" radio button).</li>
-  <li>Click on <b>Create Mapshapes</b> to get code, which can be directly pasted to Wikivoyage & an overview table of all districts</li>
+  <li>Enter the <b>Administrative Level</b> of the subdistricts you are looking for. This is sort of a trial-and-error process. The admin level has to be larger than the one of the place defined in the name field (So if you look for districts of a city like Prague, which has <a href="https://www.openstreetmap.org/relation/439840">"admin_level=8"</a> the districts will show up by entering either "9" or "10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level" to get the right admin_level without trial-and-error (e.g. <a href="https://www.openstreetmap.org/relation/428823">Vyšehrad has "admin_level=10".</a> Thus you select the "10" radio button).</li>
+  <li>Click on <b>Create Mapshapes</b> to get code, which can be directly pasted to Wikivoyage & an overview table of all districts.</li>
   </ol>
 
   <h3>Example queries</h3>
@@ -220,7 +220,7 @@ function fetchGeoJson() {
   //console.log("Data with URI encoding: " +dataUri);
 
   //Create url for API request
-  var url="http://overpass-api.de/api/interpreter?data=" + dataUri;
+  var url="https://overpass-api.de/api/interpreter?data=" + dataUri;
   //console.log(url);
 
   fetch(url)
