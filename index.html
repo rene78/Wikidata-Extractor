@@ -317,9 +317,10 @@ function fetchGeoJson() {
   var radios = document.getElementsByName("admin_level");
   var adminLevel;
   for (var i = 0; i < radios.length; i++) {
-      if (radios[i].checked) {
-        adminLevel = radios[i].value;       
-      }
+    if (radios[i].checked) {
+      adminLevel = radios[i].value;
+      { break; }
+    }
   }
   
   var data='[out:json][timeout:240];area[~"^name"~"' + name + '"]->.search;(rel(area.search)[admin_level=' +adminLevel + '][wikidata=""];);out tags;';
@@ -339,9 +340,6 @@ function fetchGeoJson() {
       return response.json();
     })
     .then(function (overpassJson) {
-      //Change cursor back to standard
-      document.body.style.cursor = "auto";
-
       //If the response is empty print a message
       if (overpassJson.elements.length!=0) {
         createMapshapes(overpassJson);
@@ -413,6 +411,8 @@ function createMapshapes(overpassJson) {
   document.getElementById("heading3").innerHTML="<h3>Mapshapes</h3>";
   document.getElementById("infotext").innerHTML="<details><summary>Hints</summary><ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul></details>";
   document.getElementById("mapshapes").innerHTML=outputTextarea;
+  //Change cursor back to standard
+  document.body.style.cursor = "auto";
 }
 
 function defineName(overpassJson, i) {
