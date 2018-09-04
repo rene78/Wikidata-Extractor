@@ -9,16 +9,16 @@
     body {
       background-color: linen;
     }
-	
+  
     h2 {
       color: maroon;
     }
-	
+  
     textarea {
       max-width: 100%;
       height: 200px;
     }
-	
+  
     input[type=text] {
       width: 400px;
       max-width: 100%;
@@ -43,56 +43,56 @@
     /*Custom radio buttons Start
     The container */
     .container {
-        display: block;
-        position: relative;
-        padding-left: 35px;
-        margin-bottom: 4px;
-        cursor: pointer;
-        /*font-size: 22px;*/
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      /*font-size: 22px;*/
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
     /* Hide the browser's default radio button */
     .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
     }
 
     /* Create a custom radio button */
     .checkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 16px;
-        width: 16px;
-        background-color: #eee;
-        border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 16px;
+      width: 16px;
+      background-color: #eee;
+      border-radius: 50%;
     }
 
     /* On mouse-over, add a grey background color */
     .container:hover input ~ .checkmark {
-        background-color: #ccc;
+      background-color: #ccc;
     }
 
     /* When the radio button is checked, add a blue background */
     .container input:checked ~ .checkmark {
-        background-color: #2196F3;
+      background-color: #2196F3;
     }
 
     /* Create the indicator (the dot/circle - hidden when not checked) */
     .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
+      content: "";
+      position: absolute;
+      display: none;
     }
 
     /* Show the indicator (dot/circle) when checked */
     .container input:checked ~ .checkmark:after {
-        display: block;
+      display: block;
     }
 
     /* Style the indicator (dot/circle) */
@@ -107,25 +107,25 @@
     /*Custom radio buttons End*/
 
     thead {
-    background-color: #F0F8FF;
+      background-color: #F0F8FF;
     }
-	
+  
     tbody {
-    background-color: #F0F0F0;
+      background-color: #F0F0F0;
     }
-	
+  
     .flex-container {
-    display: flex;
+      display: flex;
       flex-wrap: wrap;
     }
-	
+  
     .flex-container > div {
       background-color: #f1f1f1;
       width: 400px;
       margin: 10px;
       text-align: center;
     }
-	
+  
     ul.topnav {
       list-style-type: none;
       margin: 0;
@@ -151,9 +151,9 @@
     ul.topnav li.right {float: right;}
     
     @media screen and (max-width: 600px){
-        ul.topnav li.right, 
-        ul.topnav li {float: none;}
-		h1 {text-align: center;}
+      ul.topnav li.right, 
+      ul.topnav li {float: none;}
+      h1 {text-align: center;}
     }
   </style>
 </head>
@@ -240,25 +240,25 @@
   <h3>Example queries</h3>
   <div class="flex-container">
     <div><img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
-	<b>Subdistricts of Prague</b><br>Name: Prague<br>Administrative Level: 10</div>
+  <b>Subdistricts of Prague</b><br>Name: Prague<br>Administrative Level: 10</div>
     <div><img src="img/Example_Slovakia.jpg" alt="Example: Slovakia" style="width:100%;max-width:400px;height:auto;">
-	<b>Regions of Slovakia*</b><br>Name: Slovakia<br>Administrative Level: 8</div>
+  <b>Regions of Slovakia*</b><br>Name: Slovakia<br>Administrative Level: 8</div>
     <div><img src="img/Example_France.jpg" alt="Example: France" style="width:100%;max-width:400px;height:auto;">
-	<b>Regions of France*</b><br>Name: France<br>Administrative Level: 4</div>
+  <b>Regions of France*</b><br>Name: France<br>Administrative Level: 4</div>
     <div><img src="img/Example_Berlin_Level_9.jpg" alt="Example: Boroughs of Berlin" style="width:100%;max-width:400px;height:auto;">
-	<b>Boroughs of Berlin</b><br>Name: Berlin<br>Administrative Level: 9</div>
+  <b>Boroughs of Berlin</b><br>Name: Berlin<br>Administrative Level: 9</div>
     <div><img src="img/Example_Berlin_Level_10.jpg" alt="Example: Neighborhoods of Berlin" style="width:100%;max-width:400px;height:auto;">
-	<b>Neighborhoods of Berlin</b><br>Name: Berlin<br>Administrative Level: 10</div>
+  <b>Neighborhoods of Berlin</b><br>Name: Berlin<br>Administrative Level: 10</div>
   </div>
  * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. The regions of France in the example above take about 4mins to compute.
 
   <h3>Improve</h3>
   <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate or leave a comment down below.</p>
- 
+
   <h3>Discuss</h3>
   <div id="disqus_thread"></div>
   <script>
-  
+
   /**
   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
   *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
@@ -267,7 +267,7 @@
   this.page.url = "https://rene78.github.io/Wikidata-Extractor/";  // Replace PAGE_URL with your page's canonical URL variable
   this.page.identifier = 654187; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
   };
-  
+
   (function() { // DON'T EDIT BELOW THIS LINE
   var d = document, s = d.createElement('script');
   s.src = 'https://wikidata-extractor.disqus.com/embed.js';
@@ -302,17 +302,17 @@ function fetchGeoJson() {
   document.getElementById("heading1").innerHTML='<img src="img/giphy.gif" alt="Loading..." style="width:32px;height:auto;">';
 
   var name = document.getElementById("name").value;
-  
+
   //Exit function, if nothing has been entered & print error message.
   if (!name) {
     outputError("Please enter something in the name field.");
-	  return;
+    return;
   }
-  
+
   //Make sure, that name is found even if first letter is not a capital letter, e.g. "name"~"[hH]oltorf". Add $ sign to make sure that it doesn't find "Parish hall", if we search for Paris.
   name="^["+name[0].toUpperCase() + name[0].toLowerCase() + "]" + name.slice(1) + "$";
   console.log("Name: "+ name);
-  
+
   //Find out which radio button is selected and forward this number to "adminLevel"
   var radios = document.getElementsByName("admin_level");
   var adminLevel;
@@ -322,10 +322,10 @@ function fetchGeoJson() {
       break;
     }
   }
-  
+
   var data='[out:json][timeout:240];area[~"^name"~"' + name + '"]->.search;(rel(area.search)[admin_level=' +adminLevel + '][wikidata=""];);out tags;';
   console.log("Paste this code to overpass turbo to debug: " +data);
-  
+
   //Convert whitespaces and special chars to %xx
   var dataUri=encodeURIComponent(data.trim());
   //console.log("Data with URI encoding: " +dataUri);
@@ -344,11 +344,11 @@ function fetchGeoJson() {
       if (overpassJson.elements.length!=0) {
         createMapshapes(overpassJson);
       } else {
-	    outputError("The request returned no results!");
+      outputError("The request returned no results!");
       }
     }).catch(function(error) {
-	  outputError(error);
-	});
+    outputError(error);
+  });
 }
 
 function handleErrors(response) {
