@@ -306,7 +306,7 @@ function fetchGeoJson() {
   //Exit function, if nothing has been entered & print error message.
   if (!name) {
     outputError("Please enter something in the name field.");
-	return;
+	  return;
   }
   
   //Make sure, that name is found even if first letter is not a capital letter, e.g. "name"~"[hH]oltorf". Add $ sign to make sure that it doesn't find "Parish hall", if we search for Paris.
@@ -319,7 +319,7 @@ function fetchGeoJson() {
   for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
       adminLevel = radios[i].value;
-      { break; }
+      break;
     }
   }
   
