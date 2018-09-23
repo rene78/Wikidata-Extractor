@@ -373,7 +373,7 @@ function outputError(message) {
 
 function createMapshapes(overpassJson) {
   //Create mapshapes
-  var mapshape="{{Mapframe|42|12|width=500|height=500|zoom=1|group=map1}}\r\n";
+  var mapshape="{{Mapframe|width=500|height=500|group=map1}}\r\n";
   for (var i = 0; i < overpassJson.elements.length; i++) {
     var wikidata = overpassJson.elements[i].tags.wikidata;
     var name = defineName(overpassJson,i);
@@ -409,7 +409,7 @@ function createMapshapes(overpassJson) {
   document.getElementById("heading2").innerHTML="<h3>Overview Table</h3>";
   document.getElementById("overview-table").innerHTML=table;
   document.getElementById("heading3").innerHTML="<h3>Mapshapes</h3>";
-  document.getElementById("infotext").innerHTML="<details><summary>Hints</summary><ul><li>Please change the Mapframe values for latitude (currently 42), longitude (currently 12) and zoom (currently 1) according to you needs</li></ul>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul></details>";
+  document.getElementById("infotext").innerHTML="<details><summary>Hints</summary>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul></details>";
   document.getElementById("mapshapes").innerHTML=outputTextarea;
   //Change cursor back to standard
   document.body.style.cursor = "auto";
