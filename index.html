@@ -1,431 +1,152 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Wikidata Extractor</title>
   <link rel="Shortcut Icon" href="img/favicon.ico">
-  <style>
-    body {
-      background-color: linen;
-    }
-  
-    h2 {
-      color: maroon;
-    }
-  
-    textarea {
-      max-width: 100%;
-      height: 200px;
-    }
-  
-    input[type=text] {
-      width: 400px;
-      max-width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    .button {
-      background-color: #4CAF50; /* Green */
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-    }
-    /*Custom radio buttons Start
-    The container */
-    .container {
-      display: block;
-      position: relative;
-      padding-left: 35px;
-      margin-bottom: 4px;
-      cursor: pointer;
-      /*font-size: 22px;*/
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    /* Hide the browser's default radio button */
-    .container input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    /* Create a custom radio button */
-    .checkmark {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 16px;
-      width: 16px;
-      background-color: #eee;
-      border-radius: 50%;
-    }
-
-    /* On mouse-over, add a grey background color */
-    .container:hover input ~ .checkmark {
-      background-color: #ccc;
-    }
-
-    /* When the radio button is checked, add a blue background */
-    .container input:checked ~ .checkmark {
-      background-color: #2196F3;
-    }
-
-    /* Create the indicator (the dot/circle - hidden when not checked) */
-    .checkmark:after {
-      content: "";
-      position: absolute;
-      display: none;
-    }
-
-    /* Show the indicator (dot/circle) when checked */
-    .container input:checked ~ .checkmark:after {
-      display: block;
-    }
-
-    /* Style the indicator (dot/circle) */
-    .container .checkmark:after {
-      top: 6px;
-      left: 6px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: white;
-    }
-    /*Custom radio buttons End*/
-
-    thead {
-      background-color: #F0F8FF;
-    }
-  
-    tbody {
-      background-color: #F0F0F0;
-    }
-  
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  
-    .flex-container > div {
-      background-color: #f1f1f1;
-      width: 400px;
-      margin: 10px;
-      text-align: center;
-    }
-  
-    ul.topnav {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333;
-    }
-    
-    ul.topnav li {float: left;}
-    
-    ul.topnav li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    ul.topnav li a:hover:not(.active) {background-color: #111;}
-    
-    ul.topnav li a.active {background-color: #4CAF50;}
-    
-    ul.topnav li.right {float: right;}
-    
-    @media screen and (max-width: 600px){
-      ul.topnav li.right, 
-      ul.topnav li {float: none;}
-      h1 {text-align: center;}
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
 
 <body>
 
-<ul class="topnav">
-  <li><a href="https://rene78.github.io/Wikivoyage-Districtifier/">Wikivoyage Districtifier</a></li>
-  <li><a href="https://rene78.github.io/mapmask-geojson-converter/">Mapmask ↔ GeoJSON Converter</a></li>
-  <li><a class="active" href="https://rene78.github.io/Wikidata-Extractor/">Wikidata-Extractor</a></li>
-</ul>
+  <div w3-include-html="navbar.html"></div>
 
-<h2>Name</h2>
-<p> ...of the city, province or country from which to extract subareas</p>
+  <main>
+    <h2>Name</h2>
+    <p> ...of the city, province or country from which to extract subareas</p>
 
-<input type="text" id="name" placeholder="e.g. 'Prague' or 'Praha'" autofocus><br>
+    <input type="text" id="name" placeholder="e.g. 'Prague' or 'Praha'" autofocus><br>
 
-<h2>Administrative Level</h2>
-<p>...of the districts/countries you want to find</p>
-<label class="container">1 (Super-national administrations, e.g. European Union)
-  <input type="radio" name="admin_level" value="1">
-  <span class="checkmark"></span>
-</label>
-<label class="container">2 (Countries)
-  <input type="radio" name="admin_level" value="2">
-  <span class="checkmark"></span>
-</label>
-<label class="container">3 (In Japan: States)
-  <input type="radio" name="admin_level" value="3">
-  <span class="checkmark"></span>
-</label>
-<label class="container">4 (States)
-  <input type="radio" name="admin_level" value="4">
-  <span class="checkmark"></span>
-</label>
-<label class="container">5 (Administrative District)
-  <input type="radio" name="admin_level" value="5">
-  <span class="checkmark"></span>
-</label>
-<label class="container">6 (Counties)
-  <input type="radio" name="admin_level" value="6">
-  <span class="checkmark"></span>
-</label>
-<label class="container">7 (Townships)
-  <input type="radio" name="admin_level" value="7">
-  <span class="checkmark"></span>
-</label>
-<label class="container">8 (Boroughs)
-  <input type="radio" checked="checked" name="admin_level" value="8">
-  <span class="checkmark"></span>
-</label>
-<label class="container">9 (Wards)
-  <input type="radio" name="admin_level" value="9">
-  <span class="checkmark"></span>
-</label>
-<label class="container">10 (Neighborhoods)
-  <input type="radio" name="admin_level" value="10">
-  <span class="checkmark"></span>
-</label>
+    <h2>Administrative Level</h2>
+    <p>...of the districts/countries you want to find</p>
+    <label class="container">1 (Super-national administrations, e.g. European Union)
+      <input type="radio" name="admin_level" value="1">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">2 (Countries)
+      <input type="radio" name="admin_level" value="2">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">3 (In Japan: States)
+      <input type="radio" name="admin_level" value="3">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">4 (States)
+      <input type="radio" name="admin_level" value="4">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">5 (Administrative District)
+      <input type="radio" name="admin_level" value="5">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">6 (Counties)
+      <input type="radio" name="admin_level" value="6">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">7 (Townships)
+      <input type="radio" name="admin_level" value="7">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">8 (Boroughs)
+      <input type="radio" checked="checked" name="admin_level" value="8">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">9 (Wards)
+      <input type="radio" name="admin_level" value="9">
+      <span class="checkmark"></span>
+    </label>
+    <label class="container">10 (Neighborhoods)
+      <input type="radio" name="admin_level" value="10">
+      <span class="checkmark"></span>
+    </label>
 
-<input type="button" class="button" id="myBtn" value="Create Mapshapes" onclick="fetchGeoJson()"/>
+    <input type="button" class="button" id="myBtn" value="Create Mapshapes" onclick="fetchGeoJson()" />
 
-<p id="heading1"></p>
-<p id="heading2"></p>
-<p id="overview-table"></p>
-<p id="heading3"></p>
-<p id="infotext"></p>
-<p id="mapshapes"></p>
+    <p id="heading1"></p>
+    <p id="heading2"></p>
+    <p id="overview-table"></p>
+    <p id="heading3"></p>
+    <p id="infotext"></p>
+    <p id="mapshapes"></p>
 
-<details>
-  <summary>Help & Forum</summary>
-  <h3>Introduction</h3>
-  <p>It is often very tedious to gather all Wikidata ID's in order to create a dynamic district map for Wikivoyage. The macro on this page can automate this task.<br>
-  Example: To get all the districts of <a href="https://en.wikivoyage.org/wiki/Talk:Prague#Wikidata_items_for_dynamic_map">Prague</a> is just a matter of minutes with this tool.<br>
-  <img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;"><br>
-  </p>
-  <h3>Workflow</h3>
-  <ol>
-  <li>Enter the <b>Name</b> of the place to districtify.</a>
-  <li>Enter the <b>Administrative Level</b> of the subdistricts you are looking for. This is sort of a trial-and-error process. The admin level has to be larger than the one of the place defined in the name field (So if you look for districts of a city like Prague, which has <a href="https://www.openstreetmap.org/relation/439840">"admin_level=8"</a> the districts will show up by entering either "9" or "10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level" to get the right admin_level without trial-and-error (e.g. <a href="https://www.openstreetmap.org/relation/428823">Vyšehrad has "admin_level=10".</a> Thus you select the "10" radio button).</li>
-  <li>Click on <b>Create Mapshapes</b> to get code, which can be directly pasted to Wikivoyage & an overview table of all districts.</li>
-  </ol>
+    <details>
+      <summary>Help & Forum</summary>
+      <h3>Introduction</h3>
+      <p>It is often very tedious to gather all Wikidata ID's in order to create a dynamic district map for Wikivoyage.
+        The macro on this page can automate this task.<br>
+        Example: To get all the districts of <a
+          href="https://en.wikivoyage.org/wiki/Talk:Prague#Wikidata_items_for_dynamic_map">Prague</a> is just a matter
+        of
+        minutes with this tool.<br>
+        <img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;"><br>
+      </p>
+      <h3>Workflow</h3>
+      <ol>
+        <li>Enter the <b>Name</b> of the place to districtify.</a>
+        <li>Enter the <b>Administrative Level</b> of the subdistricts you are looking for. This is sort of a
+          trial-and-error process. The admin level has to be larger than the one of the place defined in the name field
+          (So if you look for districts of a city like Prague, which has <a
+            href="https://www.openstreetmap.org/relation/439840">"admin_level=8"</a> the districts will show up by
+          entering either "9" or "10"). Alternatively check the sub-districts in OSM and copy the value of "admin_level"
+          to get the right admin_level without trial-and-error (e.g. <a
+            href="https://www.openstreetmap.org/relation/428823">Vyšehrad has "admin_level=10".</a> Thus you select the
+          "10" radio button).</li>
+        <li>Click on <b>Create Mapshapes</b> to get code, which can be directly pasted to Wikivoyage & an overview table
+          of all districts.</li>
+      </ol>
 
-  <h3>Example queries</h3>
-  <div class="flex-container">
-    <div><img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
-  <b>Subdistricts of Prague</b><br>Name: Prague<br>Administrative Level: 10</div>
-    <div><img src="img/Example_Slovakia.jpg" alt="Example: Slovakia" style="width:100%;max-width:400px;height:auto;">
-  <b>Regions of Slovakia*</b><br>Name: Slovakia<br>Administrative Level: 8</div>
-    <div><img src="img/Example_France.jpg" alt="Example: France" style="width:100%;max-width:400px;height:auto;">
-  <b>Regions of France*</b><br>Name: France<br>Administrative Level: 4</div>
-    <div><img src="img/Example_Berlin_Level_9.jpg" alt="Example: Boroughs of Berlin" style="width:100%;max-width:400px;height:auto;">
-  <b>Boroughs of Berlin</b><br>Name: Berlin<br>Administrative Level: 9</div>
-    <div><img src="img/Example_Berlin_Level_10.jpg" alt="Example: Neighborhoods of Berlin" style="width:100%;max-width:400px;height:auto;">
-  <b>Neighborhoods of Berlin</b><br>Name: Berlin<br>Administrative Level: 10</div>
-  </div>
- * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. The regions of France in the example above take about 4mins to compute.
+      <h3>Example queries</h3>
+      <div class="flex-container">
+        <div><img src="img/Example_Prague.jpg" alt="Example: Prague" style="width:100%;max-width:400px;height:auto;">
+          <b>Subdistricts of Prague</b><br>Name: Prague<br>Administrative Level: 10</div>
+        <div><img src="img/Example_Slovakia.jpg" alt="Example: Slovakia"
+            style="width:100%;max-width:400px;height:auto;">
+          <b>Regions of Slovakia*</b><br>Name: Slovakia<br>Administrative Level: 8</div>
+        <div><img src="img/Example_France.jpg" alt="Example: France" style="width:100%;max-width:400px;height:auto;">
+          <b>Regions of France*</b><br>Name: France<br>Administrative Level: 4</div>
+        <div><img src="img/Example_Berlin_Level_9.jpg" alt="Example: Boroughs of Berlin"
+            style="width:100%;max-width:400px;height:auto;">
+          <b>Boroughs of Berlin</b><br>Name: Berlin<br>Administrative Level: 9</div>
+        <div><img src="img/Example_Berlin_Level_10.jpg" alt="Example: Neighborhoods of Berlin"
+            style="width:100%;max-width:400px;height:auto;">
+          <b>Neighborhoods of Berlin</b><br>Name: Berlin<br>Administrative Level: 10</div>
+      </div>
+      * Overpass queries on larger areas (i.e. whole countries) can take a considerable amount of time to compute. The
+      regions of France in the example above take about 4mins to compute.
 
-  <h3>Improve</h3>
-  <p>If you have ideas on how to make this tool better please head over to the <a href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate or leave a comment down below.</p>
+      <h3>Improve</h3>
+      <p>If you have ideas on how to make this tool better please head over to the <a
+          href="https://github.com/rene78/Wikidata-Extractor">github page</a> and participate or leave a comment down
+        below.</p>
 
-  <h3>Discuss</h3>
-  <div id="disqus_thread"></div>
-</details>
-
+      <h3>Discuss</h3>
+      <div id="disqus_thread"></div>
+    </details>
+  </main>
   <script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 
-  /**
-  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-  
-  var disqus_config = function () {
-  this.page.url = "https://rene78.github.io/Wikidata-Extractor/";  // Replace PAGE_URL with your page's canonical URL variable
-  this.page.identifier = 654187; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-  };
+    var disqus_config = function () {
+      this.page.url = "https://rene78.github.io/Wikidata-Extractor/";  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = 654187; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
 
-  (function() { // DON'T EDIT BELOW THIS LINE
-  var d = document, s = d.createElement('script');
-  s.src = 'https://wikidata-extractor.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-  })();
+    (function () { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://wikidata-extractor.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
   </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+      Disqus.</a></noscript>
 
-<script>
-
-//Send request after pressing the return key
-document.querySelector("#name").addEventListener("keyup", event => {
-  event.preventDefault(); // No need to `return false;`.
-  if(event.key !== "Enter") return;
-  fetchGeoJson();
-});
-
-function fetchGeoJson() {
-  //Clean all HTML sections from previous results or errors
-  document.getElementById("heading1").innerHTML="";
-  document.getElementById("heading2").innerHTML="";
-  document.getElementById("overview-table").innerHTML="";
-  document.getElementById("heading3").innerHTML="";
-  document.getElementById("infotext").innerHTML="";
-  document.getElementById("mapshapes").innerHTML="";
-  document.getElementById("infotext").innerHTML="";
-  //Show wait cursor and GIF while the JSON is being loaded
-  document.body.style.cursor = "wait";
-  document.getElementById("heading1").innerHTML='<img src="img/giphy.gif" alt="Loading..." style="width:32px;height:auto;">';
-
-  var name = document.getElementById("name").value;
-
-  //Exit function, if nothing has been entered & print error message.
-  if (!name) {
-    outputError("Please enter something in the name field.");
-    return;
-  }
-
-  //Make sure, that name is found even if first letter is not a capital letter, e.g. "name"~"[hH]oltorf". Add $ sign to make sure that it doesn't find "Parish hall", if we search for Paris.
-  name="^["+name[0].toUpperCase() + name[0].toLowerCase() + "]" + name.slice(1) + "$";
-  console.log("Name: "+ name);
-
-  //Find out which radio button is selected and forward this number to "adminLevel"
-  var radios = document.getElementsByName("admin_level");
-  var adminLevel;
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      adminLevel = radios[i].value;
-      break;
-    }
-  }
-
-  var data='[out:json][timeout:240];area[~"^name"~"' + name + '"]->.search;(rel(area.search)[admin_level=' +adminLevel + '][wikidata=""];);out tags;';
-  console.log("Paste this code to overpass turbo to debug: " +data);
-
-  //Convert whitespaces and special chars to %xx
-  var dataUri=encodeURIComponent(data.trim());
-  //console.log("Data with URI encoding: " +dataUri);
-
-  //Create url for API request
-  var url="https://overpass-api.de/api/interpreter?data=" + dataUri;
-  //console.log(url);
-
-  fetch(url)
-    .then(handleErrors)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function (overpassJson) {
-      //If the response is empty print a message
-      if (overpassJson.elements.length!=0) {
-        createMapshapes(overpassJson);
-      } else {
-      outputError("The request returned no results!");
-      }
-    }).catch(function(error) {
-    outputError(error);
-  });
-}
-
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
-}
-
-//Show error message
-function outputError(message) {
-  //Change cursor back to standard
-  document.body.style.cursor = "auto";
-
-  document.getElementById("heading1").innerHTML="<h2>An error has occured</h2>"; //Replace loading animation with "Error"
-  document.getElementById("heading2").innerHTML="";
-  document.getElementById("overview-table").innerHTML="";
-  document.getElementById("heading3").innerHTML="";
-  document.getElementById("infotext").innerHTML=message;
-  document.getElementById("mapshapes").innerHTML="";
-}
-
-function createMapshapes(overpassJson) {
-  //Create mapshapes
-  var mapshape="{{Mapframe|width=500|height=500|group=map1}}\r\n";
-  for (var i = 0; i < overpassJson.elements.length; i++) {
-    var wikidata = overpassJson.elements[i].tags.wikidata;
-    var name = defineName(overpassJson,i);
-    var randColor = ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);//source: https://www.paulirish.com/2009/random-hex-color-code-snippets/
-    mapshape=mapshape + "{{Mapshape|type=geoshape|wikidata=" + wikidata + "|group=map1|fill=#"    + randColor + "|title=" + name + " - " + wikidata + "}}\r\n";
-  }
-  var outputTextarea = "<textarea id=textareabox cols=110 rows=30>" + mapshape + "</textarea>";
-
-  //Create overview table
-  var table="<table>";
-  table += "<thead>";
-  table += "<tr>";
-  table += "<th align=left>Name</th>";
-  table += "<th align=left>Wikidata-ID</th>";
-  table += "</tr>";
-  table += "</thead>";
-  table += "<tbody>";
-
-  for (var i = 0; i < overpassJson.elements.length; i++) {
-    var wikidata = overpassJson.elements[i].tags.wikidata;
-    var name = defineName(overpassJson,i);
-    table += "<tr>";
-    table += ("<td>" + name + "</td>");
-    table += ("<td>" + wikidata + "</td>");
-  }
-
-  table += "</tr>";
-  table += "</tbody>";
-  table += "</table";
-
-  //Write to html
-  document.getElementById("heading1").innerHTML="<h2>Result</h2>";
-  document.getElementById("heading2").innerHTML="<h3>Overview Table</h3>";
-  document.getElementById("overview-table").innerHTML=table;
-  document.getElementById("heading3").innerHTML="<h3>Mapshapes</h3>";
-  document.getElementById("infotext").innerHTML="<details><summary>Hints</summary>In case of <i>Couldn't parse JSON: Syntax error</i>, when pasting in Wikivoyage:<ul><li>Check, if any of the Mapshapes below have the tag <i>wikidata</i> set to <i>undefined</i>. This means, that the Wikidata-ID has yet to be defined in OSM</li><li>Check if there are quotation marks in the title of any district. They are not allowed!</li></ul></details>";
-  document.getElementById("mapshapes").innerHTML=outputTextarea;
-  //Change cursor back to standard
-  document.body.style.cursor = "auto";
-}
-
-function defineName(overpassJson, i) {
-  //use english name, if available. Else use the normal "name" tag. Dot/bracket notation used due to colon (https://stackoverflow.com/q/4925760/5263954)
-  if (typeof overpassJson.elements[i].tags['name:en'] == 'undefined') {
-    return overpassJson.elements[i].tags.name;
-  } else {
-    return overpassJson.elements[i].tags['name:en'];
-  }
-}
-</script>
-
-<script id="dsq-count-scr" src="//wikidata-extractor.disqus.com/count.js" async></script>
-
+  <script id="dsq-count-scr" src="//wikidata-extractor.disqus.com/count.js" async></script>
+  <script src="main.js"></script>
 </body>
+
 </html>
